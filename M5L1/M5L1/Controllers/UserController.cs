@@ -81,6 +81,73 @@ namespace M5L1.Controllers
                 UserForCreate userForCreate = new UserForCreate { Name = name, Job = job };
 
                 string serializedUser = JsonConvert.SerializeObject(userForCreate);
+                StringContent content = new StringContent(serializedUser, Encoding.Unicode, "application/json");
+                HttpResponseMessage message = await client.PostAsync("api/users", content);
+
+                if (message.StatusCode == HttpStatusCode.Created)
+                {
+                    Console.WriteLine("Created");
+
+                    string res = await message.Content.ReadAsStringAsync();
+                    Console.WriteLine(res);
+
+                    UserModel userModel = JsonConvert.DeserializeObject<UserModel>(res);
+                    Console.WriteLine(userModel.ToString());
+                }
+            }
+        }
+
+        public static async Task UpdateUser(string name, string job)
+        {
+            using(var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://reqres.in/");
+                UserForCreate userForCreate = new UserForCreate { Name = name, Job = job };
+                string serializedUser = JsonConvert.SerializeObject(userForCreate);
+                StringContent content = new StringContent(serializedUser, Encoding.Unicode, "application/json");
+                HttpResponseMessage message = await client.PutAsync("api/users/2", content);
+                if (message.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("Updated");
+
+                    string res = await message.Content.ReadAsStringAsync();
+                    Console.WriteLine(res);
+
+                    UserModel userModel = JsonConvert.DeserializeObject<UserModel>(res);
+                    Console.WriteLine(userModel.ToString());
+                }
+            }
+        }
+        public static async Task UpdateUserPatch(string name, string job)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://reqres.in/");
+                UserForCreate userForCreate = new UserForCreate { Name = name, Job = job };
+                string serializedUser = JsonConvert.SerializeObject(userForCreate);
+                StringContent content = new StringContent(serializedUser, Encoding.Unicode, "application/json");
+                HttpResponseMessage message = await client.PatchAsync("api/users/2", content);
+                if (message.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("Updated");
+
+                    string res = await message.Content.ReadAsStringAsync();
+                    Console.WriteLine(res);
+
+                    UserModel userModel = JsonConvert.DeserializeObject<UserModel>(res);
+                    Console.WriteLine(userModel.ToString());
+                }
+            }
+        }
+        public static async Task DeleteUser()
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://reqres.in/");
+                HttpResponseMessage message = await client.DeleteAsync("api/users/2");
+                if (message.IsSuccessStatusCode)
+                {
+                }
             }
         }
     }

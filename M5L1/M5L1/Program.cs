@@ -1,6 +1,6 @@
 ﻿using M5L1.Controllers;
 // 1 LIST USERS
-//UserController.ReqresModelsExampleAsync();
+//UserController.ListUsersAsync();
 
 // 2 SINGLE USER
 //UserController.SingleUserAsync(2);
@@ -17,4 +17,15 @@
 // 6 SINGLE <RESOURCE> NOT FOUND
 //ResourceController.SingleResourceAsync(23);
 
+// 7 CREATE
+//UserController.CreateUser("John", "Programmer");
+
+// 8 UPDATE
+//UserController.UpdateUser("morpheus", "zion resident");
+
+// 9 UPDATE PATCH
+//UserController.UpdateUserPatch("morpheus", "zion resident");
+
+// 10 DELETE
+//UserController.DeleteUser();
 Console.ReadLine();

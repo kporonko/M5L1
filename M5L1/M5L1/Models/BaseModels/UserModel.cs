@@ -16,5 +16,19 @@
 
         [JsonProperty("avatar")]
         public string Avatar { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("job")]
+        public string Job { get; set; }
+
+        [JsonProperty("createdAt")]
+        public DateTime CreatedAt { get; set; }
+
+        public override string ToString()
+        {
+            return $"id: {this.Id}\nemail: {this.Email}\nFirst Name: {this.FirstName}\nLast Name: {this.LastName}\nAvatar: {this.Avatar}\nName: {this.Name}\nJob: {this.Job}\nCreatedAt: {this.CreatedAt}";
+        }
     }
 }
