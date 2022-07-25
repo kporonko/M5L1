@@ -28,4 +28,11 @@
 
 // 10 DELETE
 //UserController.DeleteUser();
+
+// 11 REGISTER - SUCCESSFUL
+UserController.RegisterUser(true);
+
+// 12 REGISTER - UNSUCCESSFUL
+UserController.RegisterUser(false);
+
 Console.ReadLine();

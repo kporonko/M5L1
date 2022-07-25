@@ -26,6 +26,9 @@
         [JsonProperty("createdAt")]
         public DateTime CreatedAt { get; set; }
 
+        [JsonProperty("password")]
+        public string Password { get; set; }
+
         public override string ToString()
         {
             return $"id: {this.Id}\nemail: {this.Email}\nFirst Name: {this.FirstName}\nLast Name: {this.LastName}\nAvatar: {this.Avatar}\nName: {this.Name}\nJob: {this.Job}\nCreatedAt: {this.CreatedAt}";

@@ -150,5 +150,38 @@ namespace M5L1.Controllers
                 }
             }
         }
+        public static async Task RegisterUser(bool doWeWantSuccess)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://reqres.in/");
+                UserRegister user = new UserRegister();
+                if (doWeWantSuccess)
+                {
+                    user = new UserRegister { Email = "eve.holt@reqres.in", Password = "pistol" };
+                }
+                else
+                {
+                    user = new UserRegister { Email = "sydney@fife" };
+                }
+                string serializedUser = JsonConvert.SerializeObject(user);
+                StringContent content = new StringContent(serializedUser, Encoding.Unicode, "application/json");
+                HttpResponseMessage message = await client.PostAsync("api/register", content);
+                if (message.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("Registered");
+
+                    string res = await message.Content.ReadAsStringAsync();
+                    Console.WriteLine(res);
+
+                    UserRegister userRegister = JsonConvert.DeserializeObject<UserRegister>(res);
+                    Console.WriteLine($"id: {userRegister.Id}\ntoken: {userRegister.Token}");
+                }
+                else
+                {
+                    Console.WriteLine(message.Content.ReadAsStringAsync().Result);
+                }
+            }
+        }
     }
 }
