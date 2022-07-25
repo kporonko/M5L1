@@ -99,7 +99,7 @@ namespace M5L1.Controllers
 
         public static async Task UpdateUser(string name, string job)
         {
-            using(var client = new HttpClient())
+            using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://reqres.in/");
                 UserForCreate userForCreate = new UserForCreate { Name = name, Job = job };
@@ -176,6 +176,39 @@ namespace M5L1.Controllers
 
                     UserRegister userRegister = JsonConvert.DeserializeObject<UserRegister>(res);
                     Console.WriteLine($"id: {userRegister.Id}\ntoken: {userRegister.Token}");
+                }
+                else
+                {
+                    Console.WriteLine(message.Content.ReadAsStringAsync().Result);
+                }
+            }
+        }
+        public static async Task LoginUser(bool doWeWantSuccess)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://reqres.in/");
+                UserRegister user = new UserRegister();
+                if (doWeWantSuccess)
+                {
+                    user = new UserRegister { Email = "eve.holt@reqres.in", Password = "cityslicka" };
+                }
+                else
+                {
+                    user = new UserRegister { Email = "peter@klaven" };
+                }
+                string serializedUser = JsonConvert.SerializeObject(user);
+                StringContent content = new StringContent(serializedUser, Encoding.Unicode, "application/json");
+                HttpResponseMessage message = await client.PostAsync("api/login", content);
+                if (message.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("Registered");
+
+                    string res = await message.Content.ReadAsStringAsync();
+                    Console.WriteLine(res);
+
+                    UserRegister userLogin = JsonConvert.DeserializeObject<UserRegister>(res);
+                    Console.WriteLine($"token: {userLogin.Token}");
                 }
                 else
                 {
