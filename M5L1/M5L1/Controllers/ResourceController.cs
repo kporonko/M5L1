@@ -7,8 +7,15 @@ using System.Threading.Tasks;
 
 namespace M5L1.Controllers
 {
+    /// <summary>
+    /// Queries to resources
+    /// </summary>
     public class ResourceController
     {
+        /// <summary>
+        /// Gets the list of resouces of definite page.
+        /// </summary>
+        /// <returns></returns>
         public static async Task ResourceListAsync()
         {
             using (var client = new HttpClient())
@@ -43,6 +50,11 @@ namespace M5L1.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets the single resource according to id.
+        /// </summary>
+        /// <param name="id">Resource id.</param>
+        /// <returns></returns>
         public static async Task SingleResourceAsync(int id)
         {
             using (var client = new HttpClient())

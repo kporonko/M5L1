@@ -7,8 +7,15 @@ using System.Threading.Tasks;
 
 namespace M5L1.Controllers
 {
+    /// <summary>
+    /// Queries to users
+    /// </summary>
     public class UserController
     {
+        /// <summary>
+        /// Gets the list of users of definite page.
+        /// </summary>
+        /// <returns></returns>
         public static async Task ListUsersAsync()
         {
             using var client = new HttpClient();
@@ -44,6 +51,11 @@ namespace M5L1.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets the single user according to id.
+        /// </summary>
+        /// <param name="number">User`s id.</param>
+        /// <returns></returns>
         public static async Task SingleUserAsync(int number)
         {
             using (var client = new HttpClient())
@@ -73,6 +85,12 @@ namespace M5L1.Controllers
             }
         }
 
+        /// <summary>
+        /// Creates a user.
+        /// </summary>
+        /// <param name="name">User-to-create`s name.</param>
+        /// <param name="job">User-to-create`s job.</param>
+        /// <returns></returns>
         public static async Task CreateUser(string name, string job)
         {
             using (var client = new HttpClient())
@@ -97,6 +115,12 @@ namespace M5L1.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates the user with put query.
+        /// </summary>
+        /// <param name="name">User-to-update`s new name.</param>
+        /// <param name="job">User-to-update`s new job.</param>
+        /// <returns></returns>
         public static async Task UpdateUser(string name, string job)
         {
             using (var client = new HttpClient())
@@ -118,6 +142,13 @@ namespace M5L1.Controllers
                 }
             }
         }
+         
+        /// <summary>
+        /// Updates the user with patch query.
+        /// </summary>
+        /// <param name="name">User-to-update`s new name.</param>
+        /// <param name="job">User-to-update`s new job.</param>
+        /// <returns></returns>
         public static async Task UpdateUserPatch(string name, string job)
         {
             using (var client = new HttpClient())
@@ -139,6 +170,11 @@ namespace M5L1.Controllers
                 }
             }
         }
+
+        /// <summary>
+        /// Deletes the user.
+        /// </summary>
+        /// <returns></returns>
         public static async Task DeleteUser()
         {
             using (var client = new HttpClient())
@@ -150,6 +186,12 @@ namespace M5L1.Controllers
                 }
             }
         }
+
+        /// <summary>
+        /// Registers a new user.
+        /// </summary>
+        /// <param name="doWeWantSuccess">If we want to successfullly register with email and password - push 'true'. In the other case - false.</param>
+        /// <returns></returns>
         public static async Task RegisterUser(bool doWeWantSuccess)
         {
             using (var client = new HttpClient())
@@ -183,6 +225,12 @@ namespace M5L1.Controllers
                 }
             }
         }
+
+        /// <summary>
+        /// Logins the user.
+        /// </summary>
+        /// <param name="doWeWantSuccess">If we want to successfullly login user with email and password - push 'true'. In the other case - false.</param>
+        /// <returns></returns>
         public static async Task LoginUser(bool doWeWantSuccess)
         {
             using (var client = new HttpClient())
@@ -213,6 +261,45 @@ namespace M5L1.Controllers
                 else
                 {
                     Console.WriteLine(message.Content.ReadAsStringAsync().Result);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the list of users of page with 3sec delay.
+        /// </summary>
+        /// <returns></returns>
+        public static async Task ListUsersDelayAsync()
+        {
+            using var client = new HttpClient();
+            client.BaseAddress = new Uri("https://reqres.in/");
+
+            HttpResponseMessage result = await client.GetAsync("api/users?delay=3");
+
+            if (result.StatusCode == HttpStatusCode.OK)
+            {
+                Console.WriteLine("OK");
+                string content = await result.Content.ReadAsStringAsync();
+                Console.WriteLine(content + "\n");
+                UserPage? page = JsonConvert.DeserializeObject<UserPage>(content);
+
+                if (page is not null)
+                {
+                    Console.WriteLine("Page: " + page.Page);
+                    Console.WriteLine("PerPage: " + page.PerPage);
+                    Console.WriteLine("Total: " + page.Total);
+                    Console.WriteLine("TotalPages: " + page.TotalPages);
+                    Console.WriteLine("Data: \n");
+                    foreach (var user in page.Data)
+                    {
+                        Console.WriteLine($"\t{user.Id}");
+                        Console.WriteLine($"\t{user.Email}");
+                        Console.WriteLine($"\t{user.FirstName}");
+                        Console.WriteLine($"\t{user.LastName}");
+                        Console.WriteLine($"\t{user.Avatar}");
+                    }
+
+                    Console.WriteLine("\n");
                 }
             }
         }
